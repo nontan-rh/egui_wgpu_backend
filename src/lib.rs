@@ -74,6 +74,7 @@ impl ScreenDescriptor {
 #[repr(C)]
 struct UniformBuffer {
     screen_size: [f32; 2],
+    _padding: [u8; 8],
 }
 
 unsafe impl Pod for UniformBuffer {}
@@ -119,6 +120,7 @@ impl RenderPass {
             label: Some("egui_uniform_buffer"),
             contents: bytemuck::cast_slice(&[UniformBuffer {
                 screen_size: [0.0, 0.0],
+                _padding: [0; 8],
             }]),
             usage: wgpu::BufferUsages::UNIFORM | wgpu::BufferUsages::COPY_DST,
         });
@@ -607,6 +609,7 @@ impl RenderPass {
             0,
             bytemuck::cast_slice(&[UniformBuffer {
                 screen_size: [logical_width as f32, logical_height as f32],
+                _padding: [0; 8],
             }]),
         );
 
